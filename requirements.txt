@@ -1,0 +1,9 @@
+django
+djangorestframework
+django-extensions
+PyMySQL
+drf-yasg
+aiogram
+python-dotenv
+requests
+browser-cookie3
