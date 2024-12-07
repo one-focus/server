@@ -1,9 +1,16 @@
+# requirements.txt
+
 django
 djangorestframework
 django-extensions
+django-celery-beat
 PyMySQL
 drf-yasg
 aiogram
 python-dotenv
 requests
 browser-cookie3
+celery
+redis
+flower
+g4f

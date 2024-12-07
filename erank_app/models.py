@@ -1,13 +1,12 @@
 # erank_app/models.py
-
 from django.db import models
 
 
 class ShopListing(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True)  # Updated to BigIntegerField
     last_updated = models.DateTimeField(null=True, blank=True)
-    title = models.CharField(max_length=255)
-    tags = models.JSONField(default=list)
+    title = models.CharField(max_length=255, blank=True)  # Added blank=True for consistency
+    tags = models.JSONField(default=list, blank=True)  # Added blank=True for consistency
     listing_image = models.URLField(max_length=500, blank=True)
     total_views = models.IntegerField(default=0)
     favorites = models.IntegerField(default=0)
@@ -23,6 +22,9 @@ class ShopListing(models.Model):
     est_revenue_label = models.CharField(max_length=50, blank=True)
     est_conversion_rate_value = models.FloatField(default=0.0)
     est_conversion_rate_label = models.CharField(max_length=50, blank=True)
+
+    class Meta:
+        db_table = 'shop_listing'  # Optional: Define the table name in the MySQL database
 
     def __str__(self):
         return self.title

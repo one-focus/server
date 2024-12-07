@@ -19,30 +19,11 @@ class ShopListingViewSet(viewsets.ModelViewSet):
     # Remove authentication by setting permission_classes to AllowAny
     permission_classes = [AllowAny]
 
-    @action(detail=False, methods=['post'], url_path='fetch-erank_app-data')
+    @action(detail=False, methods=['post'], url_path='fetch-erank-data')
     def fetch_erank_data_view(self, request):
-        """
-        API endpoint to fetch eRank data for a given shop.
-        Expects 'shop_name' and optional 'offset' in the request data.
-        """
         shop_name = request.data.get('shop_name')
-        offset = request.data.get('offset', 0)
-
         if not shop_name:
-            return Response(
-                {'error': 'shop_name is required.'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({'error': 'shop_name is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            # Call your task to fetch and save eRank data
-            fetch_erank_data(shop_name, offset)
-            return Response(
-                {'status': 'Data fetched and saved successfully.'},
-                status=status.HTTP_200_OK
-            )
-        except Exception as e:
-            return Response(
-                {'error': str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        fetch_erank_data.delay(shop_name)
+        return Response({'status': 'Task initiated successfully.'}, status=status.HTTP_200_OK)
